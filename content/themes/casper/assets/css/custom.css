@@ -1,3 +1,5 @@
 .page-title, .page-description {
-    color: #343d44;
+    color: #ffffff;
+    text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+
 }
