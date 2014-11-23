@@ -29,3 +29,6 @@ node_modules
 
 # development database
 *.db
+
+# Mac Store files
+*.DS_Store
