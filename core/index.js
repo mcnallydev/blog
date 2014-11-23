@@ -2,8 +2,8 @@
 // Orchestrates the loading of Ghost
 // When run from command line.
 
-var server = require('./server');
 var newrelic = require('newrelic');
+var server = require('./server');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
