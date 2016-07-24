@@ -36,17 +36,17 @@
     <h5 class="header--subtitle">
       <i class="mdi mdi-calendar"></i>
       <time datetime="{{date format='YYYY-MM-DD'}}"
-        itemprop="datePublished">
-        {{date format='DD MMM YYYY'}}
-      </time>
-    </h5>
-  </div>
-  <!-- Background -->
-  {{#if image}}
-    <img class="bg-image" src="{{image}}" />
-  {{else}}{{#if @blog.cover}}
-    <img class="bg-image" src="{{@blog.cover}}" />
-  {{/if}}{{/if}}
+      itemprop="datePublished">
+      {{date format='DD MMM YYYY'}}
+    </time>
+  </h5>
+</div>
+<!-- Background -->
+{{#if image}}
+<img class="bg-image" src="{{image}}" />
+{{else}}{{#if @blog.cover}}
+<img class="bg-image" src="{{@blog.cover}}" />
+{{/if}}{{/if}}
 </header>
 
 
@@ -62,14 +62,41 @@
 <main class="main" role="main">
   <article class="main--content container" role="article">
 
+    <section class="post-adsense">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- McNally Developer - Dev Center Header -->
+      <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-9262159992567637"
+      data-ad-slot="7200503345"
+      data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </section>
+
     {{! Content }}
     <div class="post--content">{{content}}</div>
+
+    <section class="post-adsense">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- McNally Developer - Dev Center Footer -->
+      <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-9262159992567637"
+      data-ad-slot="4262213346"
+      data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </section>
+    
     <div class="divider"></div>
 
     {{! Tags }}
     <div class="post--tags half">
       {{#foreach tags}}
-        <a class="ripple" href="{{url}}" title="{{name}}">{{name}}</a>
+      <a class="ripple" href="{{url}}" title="{{name}}">{{name}}</a>
       {{/foreach}}
     </div>
 
