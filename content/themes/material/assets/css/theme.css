@@ -124,7 +124,8 @@ a:hover {
   background-color: #03ab00;
 }
 .footer a {
-  color: #B2DFDB;
+  color: #ffffff;
+  font-weight: bold;
 }
 .footer a:hover {
   color: #FFFFFF;
