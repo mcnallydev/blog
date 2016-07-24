@@ -14,13 +14,13 @@ a:hover {
   color: #00897b;
 }
 .bg-image.no-image {
-  background-color: #26a69a;
+  background-color: #026e00;
 }
 
 /* --- Navbar --------------------------------------------------------------- */
 
 .navbar {
-  background-color: #26a69a;
+  background-color: #026e00;
   color: white;
 }
 .navbar a {
@@ -38,7 +38,7 @@ a:hover {
   color: white;
 }
 .header .navbar.fixed.autohide.show {
-  background-color: #26a69a;
+  background-color: #026e00;
 }
 .header--subtitle {
   color: #ddd;
@@ -92,7 +92,7 @@ a:hover {
   background-color: rgba(0,0,0,.05);
 }
 .author--media {
-  background-color: #26a69a;
+  background-color: #026e00;
 }
 
 /* --- FABs ----------------------------------------------------------------- */
