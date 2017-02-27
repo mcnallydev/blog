@@ -6,8 +6,10 @@ var _            = require('lodash'),
     config       = require('../config'),
     canThis      = require('../permissions').canThis,
     errors       = require('../errors'),
+    events       = require('../events'),
     utils        = require('./utils'),
     i18n         = require('../i18n'),
+    readThemes   = require('../utils/read-themes'),
 
     docName      = 'settings',
     settings,
@@ -29,6 +31,20 @@ var _            = require('lodash'),
      * @type {{}}
      */
     settingsCache = {};
+
+// @TODO figure out a better way to do this in the alpha
+function initActiveTheme(theme) {
+    return readThemes.active(config.paths.themePath, theme).then(function (result) {
+        config.set({paths: {availableThemes: result}});
+    });
+}
+
+// @TODO figure out a better way to do this in the alpha
+events.on('server:start', function () {
+    config.loadExtras().then(function () {
+        updateSettingsCache();
+    });
+});
 
 /**
 * ### Updates Config Theme Settings
@@ -60,7 +76,9 @@ updateConfigCache = function () {
             postsPerPage: (settingsCache.postsPerPage && settingsCache.postsPerPage.value) || 5,
             permalinks: (settingsCache.permalinks && settingsCache.permalinks.value) || '/:slug/',
             twitter: (settingsCache.twitter && settingsCache.twitter.value) || '',
-            facebook: (settingsCache.facebook && settingsCache.facebook.value) || ''
+            facebook: (settingsCache.facebook && settingsCache.facebook.value) || '',
+            timezone: (settingsCache.activeTimezone && settingsCache.activeTimezone.value) || config.theme.timezone,
+            amp: (settingsCache.amp && settingsCache.amp.value === 'true')
         },
         labs: labsValue
     });
@@ -73,7 +91,8 @@ updateConfigCache = function () {
  * @param {Object} settings
  * @returns {Settings}
  */
-updateSettingsCache = function (settings) {
+updateSettingsCache = function (settings, options) {
+    options = options || {};
     settings = settings || {};
 
     if (!_.isEmpty(settings)) {
@@ -86,7 +105,7 @@ updateSettingsCache = function (settings) {
         return Promise.resolve(settingsCache);
     }
 
-    return dataProvider.Settings.findAll()
+    return dataProvider.Settings.findAll(options)
         .then(function (result) {
             settingsCache = readSettingsResult(result.models);
 
@@ -107,7 +126,7 @@ updateSettingsCache = function (settings) {
  * @returns {*}
  */
 settingsFilter = function (settings, filter) {
-    return _.object(_.filter(_.pairs(settings), function (setting) {
+    return _.fromPairs(_.filter(_.toPairs(settings), function (setting) {
         if (filter) {
             return _.some(filter.split(','), function (f) {
                 return setting[1].type === f;
@@ -179,7 +198,7 @@ readSettingsResult = function (settingsModels) {
         apps = config.paths.availableApps,
         res;
 
-    if (settings.activeTheme && themes) {
+    if (settings.activeTheme && !_.isEmpty(themes)) {
         res = filterPaths(themes, settings.activeTheme.value);
 
         settings.availableThemes = {
@@ -187,6 +206,8 @@ readSettingsResult = function (settingsModels) {
             value: res,
             type: 'theme'
         };
+    } else if (settings.activeTheme) {
+        initActiveTheme(settings.activeTheme.value);
     }
 
     if (settings.activeApps && apps) {
